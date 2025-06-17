@@ -2,12 +2,19 @@ import LiveCursors from "@/components/cursor/LiveCursors";
 import {useMyPresence, useOthers} from "@liveblocks/react";
 import React, {useCallback, useEffect, useState} from "react";
 import CursorChat from "@/components/cursor/CursorChat";
-import {CursorMode, CursorState} from "@/types/type";
+import {CursorMode, CursorState, Reaction} from "@/types/type";
+import ReactionSelector from "@/components/reaction/ReactionButton";
 
 const Live = () => {
     const others = useOthers();
     const [{cursor}, updateMyPresence] = useMyPresence() as any;
     const [cursorState, setCursorState] = useState<CursorState>({mode: CursorMode.Hidden});
+    const [reactions, setReactions] = useState<Reaction[]>([]);
+
+    const setReaction = useCallback((reaction: string) => {
+        setCursorState({ mode: CursorMode.Reaction, reaction, isPressed: false });
+    }, []);
+
     const handlePointerMove = useCallback((event: React.PointerEvent) => {
         event.preventDefault();
 
@@ -18,7 +25,7 @@ const Live = () => {
     }, []);
 
     const handlePointerLeave = useCallback((event: React.PointerEvent) => {
-        setCursorState({ mode: CursorMode.Hidden });
+        setCursorState({mode: CursorMode.Hidden});
         updateMyPresence({cursor: null, message: null});
     }, []);
 
@@ -38,8 +45,8 @@ const Live = () => {
                     message: ''
                 });
             } else if (e.key === 'Escape') {
-                updateMyPresence({ message: '' })
-                setCursorState({ mode: CursorMode.Hidden })
+                updateMyPresence({message: ''})
+                setCursorState({mode: CursorMode.Hidden})
             }
         }
 
@@ -73,6 +80,13 @@ const Live = () => {
                     updateMyPresence={updateMyPresence}
                 />
             )}
+
+            {cursorState.mode == CursorMode.ReactionSelector && (
+                <ReactionSelector setReaction={(reaction) => {
+                    setReaction(reaction);
+                }}/>
+            )}
+
             <LiveCursors others={others}/>
         </div>
     )
