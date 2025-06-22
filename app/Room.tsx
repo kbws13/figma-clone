@@ -10,7 +10,7 @@ import {
 export function Room({ children }: { children: ReactNode }) {
     const publicApiKey = process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!;
     return (
-        <LiveblocksProvider publicApiKey={publicApiKey}>
+        <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
             <RoomProvider id="my-room">
                 <ClientSideSuspense fallback={<div>Loading…</div>}>
                     {children}

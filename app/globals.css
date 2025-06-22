@@ -1,5 +1,4 @@
 @import "@liveblocks/react-ui/styles.css";
-@import "@liveblocks/react-comments/styles.css";
 
 @tailwind base;
 @tailwind components;

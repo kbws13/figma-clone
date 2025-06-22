@@ -1,15 +1,9 @@
-"use client"
+import App from "./App";
 
-import Live from "@/components/Live";
-import Navbar from "@/components/Navbar";
+/**
+ * disable ssr to avoid pre-rendering issues of Next.js
+ *
+ * we're doing this because we're using a canvas element that can't be pre-rendered by Next.js on the server
+ */
 
-export default function Page() {
-    return (
-        <main className="h-screen overflow-hidden">
-            <Navbar/>
-            <section className="flex h-full flex-row">
-                <Live/>
-            </section>
-        </main>
-    );
-}
+export default App;
